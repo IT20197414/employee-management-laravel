@@ -48,8 +48,9 @@ class EmployeeController extends Controller
         ]);
 
         if ($request->hasFile('photo')) {
-            $validated['photo_path'] = $request->file('photo')->store('employees', 'public');
-        }
+    $validated['photo_path'] = $request->file('photo')->store('employees', 'public');
+    }
+
 
         Employee::create($validated);
 
@@ -73,12 +74,12 @@ class EmployeeController extends Controller
         ]);
 
         if ($request->hasFile('photo')) {
-            // delete old if any
             if ($employee->photo_path) {
                 Storage::disk('public')->delete($employee->photo_path);
             }
             $validated['photo_path'] = $request->file('photo')->store('employees', 'public');
         }
+
 
         $employee->update($validated);
 
