@@ -39,13 +39,13 @@ class EmployeeController extends Controller
     public function store(Request $request)
     {
         $validated = $request->validate([
-            'name'     => ['required','string','max:255'],
-            'email'    => ['required','email','max:255','unique:employees,email'],
-            'phone'    => ['nullable','string','max:50'],
-            'position' => ['nullable','string','max:255'],
-            'salary'   => ['nullable','numeric','min:0'],
-            'photo'    => ['nullable','image','mimes:jpg,jpeg,png,webp','max:2048'],
-        ]);
+    'name'     => ['required','string','max:255'],
+    'email'    => ['nullable','email','max:255','unique:employees,email'],
+    'phone'    => ['nullable','string','max:50'],
+    'position' => ['required','string','max:255'], // <-- fixed
+    'salary'   => ['required','numeric','min:0'],
+    'photo'    => ['nullable','image','mimes:jpg,jpeg,png,webp','max:2048'],
+]);
 
         if ($request->hasFile('photo')) {
     $validated['photo_path'] = $request->file('photo')->store('employees', 'public');
@@ -65,13 +65,13 @@ class EmployeeController extends Controller
     public function update(Request $request, Employee $employee)
 {
     $validated = $request->validate([
-        'name'     => ['required','string','max:255'],
-        'email'    => ['required','email','max:255','unique:employees,email,'.$employee->id],
-        'phone'    => ['nullable','string','max:50'],
-        'position' => ['nullable','string','max:255'],
-        'salary'   => ['nullable','numeric','min:0'],
-        'photo'    => ['nullable','image','mimes:jpg,jpeg,png,webp','max:2048'],
-    ]);
+    'name'     => ['required','string','max:255'],
+    'email'    => ['nullable','email','max:255','unique:employees,email,'.$employee->id],
+    'phone'    => ['nullable','string','max:50'],
+    'position' => ['required','string','max:255'], // <-- fixed
+    'salary'   => ['required','numeric','min:0'],
+    'photo'    => ['nullable','image','mimes:jpg,jpeg,png,webp','max:2048'],
+]);
 
     if ($request->hasFile('photo')) {
         if ($employee->photo_path) {
