@@ -82,9 +82,13 @@ class EmployeeController extends Controller
 
     $employee->update($validated);
 
-    // Instead of flash success, store updated ID
-    return redirect()->route('employees.index')->with('updated_employee_id', $employee->id);
-}
+        // Instead of flash success, store updated ID
+
+        return redirect()
+            ->route('employees.index')
+            ->with('updated_employee_id', $employee->id)
+            ->with('success', 'Employee updated successfully!');
+    }
 
 
 

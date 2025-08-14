@@ -11,6 +11,11 @@
     0%   { background-color: #d1e7dd; }
     100% { background-color: inherit; }
 }
+
+.alert.fade {
+    opacity: 0;
+    transition: opacity 0.5s;
+}
 </style>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -30,11 +35,24 @@
   </div>
 </nav>
 <div class="container">
-  @if(session('success'))
-    <div class="alert alert-success">{{ session('success') }}</div>
-  @endif
+@if(session('success'))
+    <div class="alert alert-success" id="success-alert">{{ session('success') }}</div>
+@endif
   @yield('content')
 </div>
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const successAlert = document.getElementById('success-alert');
+    if (successAlert) {
+        setTimeout(() => {
+            successAlert.classList.add('fade');
+            setTimeout(() => successAlert.remove(), 500);
+        }, 3000);
+    }
+});
+</script>
+@endpush
 @stack('scripts')  {{-- This makes @push('scripts') work --}}
 </body>
 </html>
