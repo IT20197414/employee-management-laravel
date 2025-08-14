@@ -8,8 +8,8 @@
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     {{-- Search form --}}
                     <form class="d-flex" method="GET" action="{{ route('employees.index') }}" onsubmit="return false;">
-                        <input type="text" id="live-search" name="q" class="form-control me-2"
-                               placeholder="Search name, email, phone, position..." value="{{ $q ?? '' }}" autocomplete="off">
+                        <input type="text" id="live-search" name="q" class="form-control me-2" style="width:300px;"
+                            placeholder="Search by name, email, phone, or position..." value="{{ $q ?? '' }}" autocomplete="off">
                     </form>
 
                     {{-- Buttons --}}
@@ -57,7 +57,7 @@
                                     <td>{{ $emp->phone }}</td>
                                     <td>{{ $emp->position }}</td>
                                     <td class="text-end">{{ $emp->salary ? number_format($emp->salary, 2) : '-' }}</td>
-                                    <td class="text-end">
+                                    <td class="text-end ps-5">
                                         <a href="{{ route('employees.edit', $emp) }}" class="btn btn-sm btn-primary">Edit</a>
                                         <form action="{{ route('employees.destroy', $emp) }}" method="POST" class="d-inline">
                                             @csrf
