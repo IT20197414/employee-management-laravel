@@ -21,6 +21,10 @@ Route::middleware('auth')->group(function () {
 
     // resource routes (index, create, store, edit, update, destroy)
     Route::resource('employees', EmployeeController::class)->except(['show']);
+
+    Route::get('/employees/search/ajax', [EmployeeController::class, 'ajaxSearch'])
+    ->name('employees.ajaxSearch');
+
 });
 
 require __DIR__.'/auth.php';

@@ -105,4 +105,30 @@ class EmployeeController extends Controller
 
         return $pdf->download('employees-report.pdf');
     }
+
+
+    // EmployeeController.php
+public function ajaxSearch(Request $request)
+{
+    $q = $request->input('q');
+
+    $employees = Employee::query()
+        ->when($q, function($query) use ($q) {
+            $query->where('name', 'like', "%{$q}%")
+                  ->orWhere('email', 'like', "%{$q}%")
+                  ->orWhere('phone', 'like', "%{$q}%")
+                  ->orWhere('position', 'like', "%{$q}%");
+        })
+        ->orderBy('name')
+        ->paginate(10)
+        ->appends($request->only('q'));
+
+    return response()->json([
+        'tableRows' => view('employees.partials.table_rows', compact('employees'))->render(),
+        'pagination' => $employees->withQueryString()->links()->render(),
+    ]);
+}
+
+
+
 }

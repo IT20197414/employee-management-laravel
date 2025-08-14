@@ -25,5 +25,6 @@
   @endif
   @yield('content')
 </div>
+@stack('scripts')  {{-- This makes @push('scripts') work --}}
 </body>
 </html>
