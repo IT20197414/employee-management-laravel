@@ -20,11 +20,11 @@
                 </div>
 
                 {{-- Employee table --}}
-                <div class="table-responsive">
+                <div class="table-responsive" style="max-height: 400px; overflow-y: auto;">
                     @if(session('updated_employee_id'))
                         <input type="hidden" id="updated-employee-id" value="{{ session('updated_employee_id') }}">
                     @endif
-                    <table class="table align-middle table-striped">
+                    <table class="table align-middle table-striped mb-0">
                         <thead>
                             <tr>
                                 <th>Photo</th>
