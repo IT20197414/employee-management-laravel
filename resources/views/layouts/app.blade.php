@@ -2,6 +2,16 @@
 <!doctype html>
 <html lang="en">
 <head>
+    <style>
+.blink-bg {
+    animation: blink-bg-fade 1.5s;
+    background-color: #d1e7dd !important;
+}
+@keyframes blink-bg-fade {
+    0%   { background-color: #d1e7dd; }
+    100% { background-color: inherit; }
+}
+</style>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{ config('app.name') }}</title>

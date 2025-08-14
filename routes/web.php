@@ -25,6 +25,17 @@ Route::middleware('auth')->group(function () {
     Route::get('/employees/search/ajax', [EmployeeController::class, 'ajaxSearch'])
     ->name('employees.ajaxSearch');
 
+
+    //Soft delete routes
+    Route::get('/employees/deleted', [EmployeeController::class, 'deletedEmployees'])->name('employees.deleted');
+    Route::post('/employees/{id}/restore', [EmployeeController::class, 'restore'])->name('employees.restore');
+    Route::delete('/employees/{id}/force-delete', [EmployeeController::class, 'forceDelete'])->name('employees.forceDelete');
+
+
+
+
+
+
 });
 
 require __DIR__.'/auth.php';

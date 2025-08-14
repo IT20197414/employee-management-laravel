@@ -1,5 +1,8 @@
+@if(session('updated_employee_id'))
+    <input type="hidden" id="updated-employee-id" value="{{ session('updated_employee_id') }}">
+@endif
 @forelse($employees as $emp)
-<tr>
+<tr id="employee-row-{{ $emp->id }}">
     <td>
         @if($emp->photo_path)
             <img src="{{ asset('storage/'.$emp->photo_path) }}" alt="photo" width="48" height="48" class="rounded-circle object-fit-cover">

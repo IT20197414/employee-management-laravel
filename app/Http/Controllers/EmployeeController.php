@@ -63,38 +63,33 @@ class EmployeeController extends Controller
     }
 
     public function update(Request $request, Employee $employee)
-    {
-        $validated = $request->validate([
-            'name'     => ['required','string','max:255'],
-            'email'    => ['required','email','max:255','unique:employees,email,'.$employee->id],
-            'phone'    => ['nullable','string','max:50'],
-            'position' => ['nullable','string','max:255'],
-            'salary'   => ['nullable','numeric','min:0'],
-            'photo'    => ['nullable','image','mimes:jpg,jpeg,png,webp','max:2048'],
-        ]);
+{
+    $validated = $request->validate([
+        'name'     => ['required','string','max:255'],
+        'email'    => ['required','email','max:255','unique:employees,email,'.$employee->id],
+        'phone'    => ['nullable','string','max:50'],
+        'position' => ['nullable','string','max:255'],
+        'salary'   => ['nullable','numeric','min:0'],
+        'photo'    => ['nullable','image','mimes:jpg,jpeg,png,webp','max:2048'],
+    ]);
 
-        if ($request->hasFile('photo')) {
-            if ($employee->photo_path) {
-                Storage::disk('public')->delete($employee->photo_path);
-            }
-            $validated['photo_path'] = $request->file('photo')->store('employees', 'public');
-        }
-
-
-        $employee->update($validated);
-
-        return redirect()->route('employees.index')->with('success', 'Employee updated.');
-    }
-
-    public function destroy(Employee $employee)
-    {
+    if ($request->hasFile('photo')) {
         if ($employee->photo_path) {
             Storage::disk('public')->delete($employee->photo_path);
         }
-        $employee->delete();
-
-        return redirect()->route('employees.index')->with('success', 'Employee deleted.');
+        $validated['photo_path'] = $request->file('photo')->store('employees', 'public');
     }
+
+    $employee->update($validated);
+
+    // Instead of flash success, store updated ID
+    return redirect()->route('employees.index')->with('updated_employee_id', $employee->id);
+}
+
+
+
+
+
 
     // PDF report of all employees
     public function report(Request $request)
@@ -128,6 +123,42 @@ public function ajaxSearch(Request $request)
         'pagination' => $employees->withQueryString()->links()->render(),
     ]);
 }
+
+    public function destroy($id)
+    {
+        $employee = Employee::findOrFail($id);
+        $employee->delete(); // Soft delete only
+        return redirect()->route('employees.index')->with('success', 'Employee deleted successfully.');
+    }
+
+    public function forceDelete($id)
+    {
+        $employee = Employee::onlyTrashed()->findOrFail($id);
+
+        // Delete photo file if exists
+        if ($employee->photo && Storage::exists('public/photos/' . $employee->photo)) {
+            Storage::delete('public/photos/' . $employee->photo);
+        }
+
+        $employee->forceDelete();
+        return redirect()->route('employees.deleted')->with('success', 'Employee permanently deleted.');
+    }
+
+
+    public function restore($id)
+    {
+        $employee = Employee::onlyTrashed()->findOrFail($id);
+        $employee->restore();
+        return redirect()->route('employees.deleted')->with('success', 'Employee restored successfully.');
+    }
+
+    public function deletedEmployees()
+    {
+        $employees = Employee::onlyTrashed()->paginate(10);
+        return view('employees.deleted', compact('employees'));
+    }
+
+
 
 
 
