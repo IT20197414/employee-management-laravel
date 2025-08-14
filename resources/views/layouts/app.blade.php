@@ -16,7 +16,35 @@
     opacity: 0;
     transition: opacity 0.5s;
 }
+
+/* //zoom the image */
+.photo-zoom-container {
+    width: 48px;
+    height: 48px;
+    position: relative;
+    display: inline-block;
+    vertical-align: middle;
+}
+.employee-photo {
+    transition: transform 0.3s cubic-bezier(.4,2,.6,1), box-shadow 0.3s;
+    cursor: pointer;
+    z-index: 1;
+    position: relative;
+    width: 48px;
+    height: 48px;
+}
+.photo-zoom-container:hover .employee-photo {
+    transform: scale(3) translateX(30px);
+    z-index: 9999;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+td { overflow: visible !important; }
+
 </style>
+
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{ config('app.name') }}</title>

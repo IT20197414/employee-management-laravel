@@ -40,15 +40,17 @@
                             @forelse($employees as $emp)
                                 <tr id="employee-row-{{ $emp->id }}">
                                     <td>
-                                        @if($emp->photo_path)
-                                            <img src="{{ asset('storage/' . $emp->photo_path) }}" alt="photo" width="48" height="48"
-                                                class="rounded-circle object-fit-cover">
-                                        @else
-                                            <div class="bg-secondary text-white rounded-circle d-inline-flex justify-content-center align-items-center"
-                                                style="width:48px;height:48px;">
-                                                {{ strtoupper(substr($emp->name, 0, 1)) }}
-                                            </div>
-                                        @endif
+                                        <div class="photo-zoom-container">
+                                            @if($emp->photo_path)
+                                                <img src="{{ asset('storage/' . $emp->photo_path) }}" alt="photo" width="48" height="48"
+                                                    class="rounded-circle object-fit-cover employee-photo">
+                                            @else
+                                                <div class="bg-secondary text-white rounded-circle d-inline-flex justify-content-center align-items-center"
+                                                    style="width:48px;height:48px;">
+                                                    {{ strtoupper(substr($emp->name, 0, 1)) }}
+                                                </div>
+                                            @endif
+                                        </div>
                                     </td>
                                     <td>{{ $emp->name }}</td>
                                     <td>{{ $emp->email }}</td>
