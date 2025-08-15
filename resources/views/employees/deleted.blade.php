@@ -17,6 +17,7 @@
                     <th>Phone</th>
                     <th>Position</th>
                     <th>Salary</th>
+                    <th>Deleted Date</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -35,16 +36,19 @@
                         <td>{{ $emp->phone }}</td>
                         <td>{{ $emp->position }}</td>
                         <td>{{ $emp->salary ? number_format($emp->salary, 2) : '-' }}</td>
+                        <td>
+                            {{ $emp->deleted_at ? $emp->deleted_at->format('Y-m-d') : '-' }}
+                        </td>
                         <td class="d-flex gap-1">
                             <form action="{{ route('employees.restore', $emp->id) }}" method="POST">
                                 @csrf
                                 <button class="btn btn-success btn-sm" type="submit">Restore</button>
                             </form>
                             <form action="{{ route('employees.forceDelete', $emp->id) }}" method="POST"
-                                  onsubmit="return confirm('Permanently delete this employee?')">
+                                onsubmit="return confirm('If you want to Delete Permanently, click OK.')">
                                 @csrf
                                 @method('DELETE')
-                                <button class="btn btn-danger btn-sm" type="submit">Delete Permanently</button>
+                                <button class="btn btn-danger btn-sm w-100" style="max-width:120px;" type="submit">Delete Perm.</button>
                             </form>
                         </td>
                     </tr>
