@@ -4,9 +4,14 @@
 use App\Http\Controllers\EmployeeController;
 use Illuminate\Support\Facades\Route;
 
+// Route::get('/', function () {
+//     // redirect root to employees
+//     return redirect()->route('employees.index');
+// });
+
+
 Route::get('/', function () {
-    // redirect root to employees
-    return redirect()->route('employees.index');
+    return redirect()->route('register');
 });
 
 // Breeze adds auth routes. Keep dashboard but redirect it too.
